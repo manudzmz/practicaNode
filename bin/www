@@ -6,6 +6,7 @@
  * "start": "DEBUG=generated:* PORT=3002 nodemon ./bin/www",
  */
 
+//"start": "SET DEBUG=generated:* PORT=3002 nodemon ./bin/www",
 var app = require('../app');
 var debug = require('debug')('practica:server');
 var http = require('http');

@@ -16,4 +16,16 @@ router.get('/', function (req, res, next) {
     });
 });
 
+
+router.post('/', function (req, res, next) {
+   const anuncio = new Anuncio(req.body);
+   anuncio.save(function (err, anuncioCreado){
+       if (err){
+           res.json({success: false, data: err});
+           return;
+       }
+       res.json({success: true, data: anuncioCreado});
+   });
+});
+
 module.exports = router;

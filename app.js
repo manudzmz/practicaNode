@@ -13,6 +13,7 @@ var app = express();
 // Base de datos y modelos
 require('./lib/connectMongoose');
 require('./models/Anuncio');
+require('./models/Usuario');
 
 
 // view engine setup
@@ -29,7 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));
+app.use('/apiv1/anuncios/', require('./routes/apiv1/anuncios'));
+app.use('/apiv1/usuarios/', require('./routes/apiv1/usuarios'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
