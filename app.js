@@ -32,6 +32,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/apiv1/anuncios/', require('./routes/apiv1/anuncios'));
 app.use('/apiv1/usuarios/', require('./routes/apiv1/usuarios'));
+app.use('/apiv1/tags/', require('./routes/apiv1/tags'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
