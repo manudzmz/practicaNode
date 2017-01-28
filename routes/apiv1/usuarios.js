@@ -9,6 +9,8 @@ const Usuario = mongoose.model("Usuario");
 const jwt = require('jsonwebtoken');
 const localConfig = require('../../localConfig');
 
+const lang = require('../../locales/lang');
+
 
 // Esto comentarlo porque no se pueden consultar los usuarios
 router.get('/', function(req, res, next) {
@@ -38,8 +40,18 @@ router.post('/authenticate', function(req, res, next){
     const userName = req.body.username;
     const password = req.body.password;
 
+    const msg_error = "USER_PASS";
+
+
+    //const lang = new i18n(req, res, next);
+    const idioma = (req.headers["accept-language"]).split("-");
+    console.log('Idioma: ', idioma);
+    console.log('Tipo idioma: ', typeof idioma);
+
     console.log('username: ', userName);
     console.log('password: ', password);
+
+    console.log(idioma);
 
     var filter = {};
 
@@ -56,7 +68,7 @@ router.post('/authenticate', function(req, res, next){
         console.log(typeof usuario);    //---------------------
         console.log('----->', usuario); //---------------------
         if ((usuario.length == '0') || (usuario[0].clave != password)) {
-            next(new Error('Usuario o contraseña incorrectos'));
+            next(new Error(lang(msg_error, idioma[0])));
         }
         else {
             console.log('Usuario: ', usuario[0].nombre);  //---------------------
