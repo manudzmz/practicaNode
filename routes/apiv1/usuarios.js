@@ -43,7 +43,6 @@ router.post('/authenticate', function(req, res, next){
     const msg_error = "USER_PASS";
 
 
-    //const lang = new i18n(req, res, next);
     const idioma = (req.headers["accept-language"]).split("-");
     console.log('Idioma: ', idioma);
     console.log('Tipo idioma: ', typeof idioma);

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "watch": "nodemon"
+    "watch": "nodemon",
+    "installBD": "nodemon ./lib/install_bd.js"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
@@ -13,6 +14,7 @@
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "jsonwebtoken": "^7.2.1",
+    "mongodb": "^2.2.22",
     "mongoose": "^4.7.7",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
