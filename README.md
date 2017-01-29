@@ -3,6 +3,7 @@
 1.- Arrancar servidor de MongoDB en puerto 27017.
 
 2.- Inicializar la BD haciendo lo siguiente:
+
         2.1.- Ejecutar:
             npm run installDB
          Esto limpiará las tablas si las hubiera e introducirá dos anuncios en ella.
