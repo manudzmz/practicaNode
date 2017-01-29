@@ -37,7 +37,6 @@ router.get('/', function (req, res, next) {
     // Añadimos el filtro por tags
     if (tag){
         filter.tags = tag;
-        console.log("El tipo del tag es ", typeof tag);
     }
 
     // Filtro por precio

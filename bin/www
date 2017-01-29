@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  *
- * "start": "DEBUG=generated:* PORT=3002 nodemon ./bin/www",
+ *
  */
 
 //"start": "SET DEBUG=generated:* PORT=3002 nodemon ./bin/www",

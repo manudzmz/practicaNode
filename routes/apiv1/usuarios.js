@@ -11,8 +11,11 @@ const localConfig = require('../../localConfig');
 
 const lang = require('../../locales/lang');
 
+const passwordHash = require('password-hash');
 
-// Esto comentarlo porque no se pueden consultar los usuarios
+
+// Para consultar usuarios a través de la API, descomentar lo que sigue
+
 router.get('/', function(req, res, next) {
     Usuario.find().exec(function(err, usuarios){
         if (err){
@@ -26,6 +29,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     const usuario = new Usuario(req.body);
+    var claveEncriptada = passwordHash.generate(usuario.clave);
+    usuario.clave = claveEncriptada;
+    // console.log(usuario);
+    // console.log(usuario.clave);
+    // console.log(claveEncriptada);
+    // console.log("Es la misma? => ", passwordHash.verify(usuario.clave, claveEncriptada));
     usuario.save(function (err, usuarioCreado){
         if (err){
             res.json({success: false, data: err});
@@ -42,39 +51,23 @@ router.post('/authenticate', function(req, res, next){
 
     const msg_error = "USER_PASS";
 
-
     const idioma = (req.headers["accept-language"]).split("-");
-    console.log('Idioma: ', idioma);
-    console.log('Tipo idioma: ', typeof idioma);
-
-    console.log('username: ', userName);
-    console.log('password: ', password);
-
-    console.log(idioma);
 
     var filter = {};
 
     //Buscar al usuario en la BD y comprobar que su contraseña es correcta
     filter = {nombre: userName};
 
-    console.log('Filtro: ', filter);
-
     Usuario.list(filter, function(err, usuario){
         if (err){
             res.json({success: false, data: err});
             return;
         }
-        console.log(typeof usuario);    //---------------------
-        console.log('----->', usuario); //---------------------
-        if ((usuario.length == '0') || (usuario[0].clave != password)) {
+        if ((usuario.length == '0') || (!passwordHash.verify(password, usuario[0].clave))) {
             next(new Error(lang(msg_error, idioma[0])));
         }
         else {
-            console.log('Usuario: ', usuario[0].nombre);  //---------------------
-            console.log('Password: ', usuario[0].clave);  //---------------------
-            console.log("Estoy antes del IF");            //---------------------
-            if (usuario[0].clave == password) {
-                console.log("Estoy justo despues del IF"); //---------------------
+            if (passwordHash.verify(password, usuario[0].clave)) {
                 // Si coincide creamos el token
                 const token = jwt.sign({_id: usuario[0]._id}, localConfig.jwt.secret, {
                     expiresIn: localConfig.jwt.expiresIn
@@ -82,7 +75,6 @@ router.post('/authenticate', function(req, res, next){
                 res.json({success: true, token: token});
             }
         }
-
     });
 });
 
